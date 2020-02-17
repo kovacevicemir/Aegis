@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aegis", "Aegis.csproj", "{0FEA41CE-2582-4701-94FB-F541F0192E5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FEA41CE-2582-4701-94FB-F541F0192E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEA41CE-2582-4701-94FB-F541F0192E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEA41CE-2582-4701-94FB-F541F0192E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEA41CE-2582-4701-94FB-F541F0192E5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EFF98CC-1A7B-4B7C-A7D4-052EC0C9A506}
+	EndGlobalSection
+EndGlobal

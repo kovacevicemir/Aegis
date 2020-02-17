@@ -1,0 +1,197 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@using Aegis.Utility;
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aegis</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <script src="https://kit.fontawesome.com/40312829e7.js" crossorigin="anonymous"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+        <script src="https://kit.fontawesome.com/40312829e7.js" crossorigin="anonymous"></script>
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+
+                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">
+                    <label class="text-info" style="cursor:pointer">Logo</label>
+                </a>
+
+
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Aegis</a>
+
+                @{var ssPlayerModel = HttpContextAccessor.HttpContext.Session.GetObject<PlayerModel>
+                                   ("ssPlayerModel");
+                }
+
+                @if (ssPlayerModel != null)
+                {
+                    <input hidden value="@ssPlayerModel.Id" id="ssPlayerId" name="ssPlayerId" />
+                    <partial name="_PlayerDetailsNavBar" model="@ssPlayerModel" />
+                    <partial name="_NotificationPartial" />
+
+                }
+                else
+                {
+                    <h2>nema sessiona...</h2>
+                }
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                    <partial name="_LoginPartial" />
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="d-flex" id="wrapper">
+            @{
+                var kurac = 8;
+            }
+            @if (ssPlayerModel != null)
+            {
+                <!-- Sidebar -->
+                <div class="bg-light border-right mr-4" id="sidebar-wrapper">
+                    <div class="sidebar-heading justify-content-center">&nbsp; Main Menu </div>
+                    <div class="list-group list-group-flush">
+                        <a asp-action="Index" asp-controller="Home" asp-area="Customer" class="list-group-item list-group-item-action bg-light">Home</a>
+                        <a asp-action="Index" asp-controller="PlayerProfile" asp-area="Customer" asp-route-id="@ssPlayerModel.Id" class="list-group-item list-group-item-action bg-light">Profile</a>
+                        <a asp-action="Index" asp-controller="World" asp-area="Customer" class="list-group-item list-group-item-action bg-light">World</a>
+                        @*<a href="#" class="list-group-item list-group-item-action bg-light">Bounty</a>
+                        <a href="#" class="list-group-item list-group-item-action bg-light">Merchant</a>*@
+                        <a asp-action="Index" asp-controller="Guild" asp-area="Customer" asp-route-id="@ssPlayerModel.GuildId" class="list-group-item list-group-item-action bg-light">Guild</a>
+                        @*<a href="#" class="list-group-item list-group-item-action bg-light">Market</a>
+                        <a href="#" class="list-group-item list-group-item-action bg-light">Messages</a>
+                        <a href="#" class="list-group-item list-group-item-action bg-light">Bank</a>*@
+                        <a asp-action="Index" asp-controller="Inventory" asp-route-playerId="@ssPlayerModel.Id" asp-area="Customer" class="list-group-item list-group-item-action bg-light">Inventory</a>
+                        <br />
+                        <br />
+                        <hr />
+                        <a asp-action="Index" asp-controller="Item" asp-area="Customer" class="list-group-item list-group-item-action bg-light">AddItem</a>
+
+                        @*<a asp-action="EquipItem" asp-controller="Inventory" asp-area="Customer" asp-route-id="@kurac" class="list-group-item list-group-item-action bg-light">equipItemTest</a>*@
+                        <a asp-action="Index" asp-controller="Monster" asp-area="Customer" class="list-group-item list-group-item-action bg-light">AddMonster</a>
+
+                    </div>
+                </div>
+                <!-- /#sidebar-wrapper -->
+            }
+
+
+            <main role="main" class="pb-3">
+
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - Aegis - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<script>
+    setInterval(function () {
+        var ssPlayerId = document.getElementById("ssPlayerId").value;
+        $("#NotificationDropDown").click(function (event) {
+            // .. your code here ...
+        });
+        $.ajax({
+            url: '/Customer/Home/GetNotification/' + ssPlayerId,
+            type: 'GET',
+            success: function (data) {
+                var notificationCount = Object.keys(data).length;
+                $('#NotificationCount').html(notificationCount);
+                console.log(notificationCount);
+                data.forEach(myFunction);
+                function myFunction(item, index) {
+                    var notificationId;
+                    var type;
+                    var int1;
+                    var int2;
+                    var description;
+                    for (var key in item) {
+                        console.log(key, item[key])
+                        if (key == 'type') {
+                            type = item[key];
+                        }
+                        if (key == 'intValue1') {
+                            int1 = item[key];
+                        }
+                        if (key == 'intValue2') {
+                            int2 = item[key];
+                        }
+                        if (key == 'description') {
+                            description = item[key];
+                        }
+                        if (key == 'Id') {
+                            notificationId == item[key];
+                        }
+                        //use Id to make event listener, when click on notification -> get ajax call to controller to delete that notification 1h work dedicated max
+                    }
+
+
+                    $("#NotificationDropDown").html('<a href="https://localhost:44337/Customer/Guild/Index/' + int2 + '" class="dropdown-item waves-effect waves-light" >' + description + '</a>');
+                    
+                }
+            }
+        })
+    }, 5000);
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#toggleStatusUpdate").click(function () {
+            $("#updateStatusForm").toggle();
+        });
+    });
+</script>

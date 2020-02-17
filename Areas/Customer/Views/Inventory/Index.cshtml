@@ -1,0 +1,119 @@
+﻿@model List<Item>
+@{
+    ViewData["Title"] = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div style="
+                display:grid; grid-template-columns:repeat(6,100px);
+                grid-gap:10px;
+                grid-template-rows:100px 100px 100px 100px;
+                grid-auto-flow:row;"
+         >
+
+        @foreach (var item in Model)
+        {
+            
+            if (item != null)
+            {
+                <div class="box showItemStats">
+                    <img src="@item.Picture" style="max-width:50px; max-height:50px;" />
+                    <div class="overlay">
+                        <div class="row">
+                            <strong class="text-info">@item.Name</strong>
+                        </div>
+
+                        @if (item.Attack != 0)
+                        {
+                            <div class="row">
+                                Attack @item.Attack
+                            </div>
+                        }
+
+                        @if (item.Deffense != 0)
+                        {
+                            <div class="row">
+                                Deffense @item.Deffense
+                            </div>
+                        }
+
+                        @if (item.HealthPoints != 0)
+                        {
+                            <div class="row">
+                                Hp @item.HealthPoints
+                            </div>
+                        }
+
+                        @if (item.Block != 0)
+                        {
+                            <div class="row">
+                                Block @item.Block %
+                            </div>
+                        }
+
+                        @if (item.Evasion != 0)
+                        {
+                            <div class="row">
+                                Evasion @item.Evasion %
+                            </div>
+                        }
+
+                        @if (item.Crit != 0)
+                        {
+                            <div class="row">
+                                Critical @item.Crit %
+                            </div>
+                        }
+
+                        @if (item.Mana != 0)
+                        {
+                            <div class="row">
+                                Mana per hour @item.Mana
+                            </div>
+                        }
+
+                        @if (item.MaxMana != 0)
+                        {
+                            <div class="row">
+                                Max Mana @item.MaxMana
+                            </div>
+                        }
+
+                        @if (item.GoldPerHour != 0)
+                        {
+                            <div class="row">
+                                GoldPerHour @item.GoldPerHour
+                            </div>
+                        }
+
+                        @if (item.ClassRequirement != null)
+                        {
+                            <div class="row">
+                                <small>For @item.ClassRequirement</small>
+                            </div>
+                        }
+
+                        @if (item.LevelReq > 0)
+                        {
+                            <div class="row">
+                                <small>Required level @item.LevelReq</small>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <small>Merchant price @item.Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                        </div>
+
+                        <div class="row">
+                            <a asp-route-id="@item.Id" asp-controller="Inventory" asp-area="Customer" asp-action="EquipItem" class="btn-sm">Equip</a>
+                            <a class="btn-sm ">Delete</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
+

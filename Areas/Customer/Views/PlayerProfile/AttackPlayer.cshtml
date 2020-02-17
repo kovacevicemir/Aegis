@@ -1,0 +1,138 @@
+﻿@model Aegis.Models.ViewModels.PlayerAttackModel
+@{
+    ViewData["Title"] = "AttackPlayer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="border row offset-2 col-12">
+    <div class="col-12">
+        <br />
+        <h2 class="col-12 justify-content-center d-flex">Battle !</h2>
+
+        @{
+            var AttackerAttacks = Model.AttackerAttacks;
+            var DeffenderAttacks = Model.DeffenderAttacks;
+
+            var AttackerDeffs = Model.AttackerDeffs;
+            var DeffenderDeffs = Model.DeffenderDeffs;
+
+            var AttackerCurrentHpLog = Model.AttackerCurrentHpLog;
+            var DeffenderCurrentHpLog = Model.DeffenderCurrentHpLog;
+
+            var i = 0;
+
+        }
+        <row class="d-inline-flex border col-12" style="min-width:600px;">
+            <div class="col-5 border m-1">
+                <div class="text-info justify-content-center d-flex border-bottom">@Model.AttackerAndDeffenderModels[0].Nickname</div>
+                <div class="text-info justify-content-center d-flex"><img src="@Model.AttackerAndDeffenderModels[0].ProfilePicture" /></div>
+                <div class="text-info justify-content-center d-flex"> @AttackerCurrentHpLog[i] HP</div>
+            </div>
+            <div class="col-2 justify-content-center d-flex" style="vertical-align:middle;"><h6 class="text-success"> VS </h6></div>
+            <div class="col-5 border m-1">
+                <div class="text-info justify-content-center d-flex border-bottom">@Model.AttackerAndDeffenderModels[1].Nickname</div>
+                <div class="text-info justify-content-center d-flex"><img src="@Model.AttackerAndDeffenderModels[1].ProfilePicture" /></div>
+                <div class="text-info justify-content-center d-flex"> @DeffenderCurrentHpLog[i] HP</div>
+            </div>
+        </row>
+        <br />
+        <br />
+        @foreach (var item in AttackerAttacks)
+        {
+            @if (item == 0)
+            {
+                <div class="border rounded" style="width:150px; height:140px; text-align:center; line-height:150px;">
+                    <p class="text-danger">Block!</p>
+                </div>
+                <div class="progress" style="width:150px; height:10px;">
+                    <div style="width:@((double)AttackerCurrentHpLog[i] * 100  / (double)Model.AttackerAndDeffenderModels[0].TotalHp)%" class="progress-bar bg-success" role="progressbar" aria-valuenow="@AttackerCurrentHpLog[i]" aria-valuemin="0" aria-valuemax="@Model.AttackerAndDeffenderModels[0].TotalHp"></div>
+                </div>
+            }
+            @if (item == -1)
+            {
+                <div class="border rounded" style="width:150px; height:140px; text-align:center; line-height:150px;">
+                    <p class="text-warning">Miss!</p>
+                </div>
+                <div class="progress" style="width:150px; height:10px;">
+                    <div style="width:@((double)AttackerCurrentHpLog[i] * 100  / (double)Model.AttackerAndDeffenderModels[0].TotalHp)%" class="progress-bar bg-success" role="progressbar" aria-valuenow="@AttackerCurrentHpLog[i]" aria-valuemin="0" aria-valuemax="@Model.AttackerAndDeffenderModels[0].TotalHp"></div>
+                </div>
+            }
+            @if (item != -1 && item != 0)
+            {
+                <div class="border rounded" style="width:150px; height:140px; text-align:center; line-height:150px;">
+                    @if (item < 0)
+                    {
+                        <strong class="text-danger">@(item * -1)</strong>
+                    }
+                    else
+                    {
+                        <p>@item</p>
+
+                    }
+
+                </div>
+                <div class="progress" style="width:150px; height:10px;">
+                    <div style="width:@((double)AttackerCurrentHpLog[i] * 100  / (double)Model.AttackerAndDeffenderModels[0].TotalHp)%" class="progress-bar bg-success" role="progressbar" aria-valuenow="@AttackerCurrentHpLog[i]" aria-valuemin="0" aria-valuemax="@Model.AttackerAndDeffenderModels[0].TotalHp"></div>
+                </div>
+
+            }
+
+            @if (DeffenderCurrentHpLog[i + 1] < 1)
+            {
+                <p class="row border m-1 text-success justify-content-center">Winner : @Model.AttackerAndDeffenderModels[0].Nickname </p>
+                break;
+            }
+
+            <row class="float-right">
+
+                @if (DeffenderAttacks[i] == 0)
+                {
+                    <div class="border rounded" style="width:150px; height:140px; text-align:center; line-height:150px;">
+                        <p class="text-danger col-12">Block!</p>
+                    </div>
+                    <div class="progress" style="width:150px; height:10px;">
+                        <div style="width:@((double)DeffenderCurrentHpLog[i + 1] * 100  / (double)Model.AttackerAndDeffenderModels[1].TotalHp)%" class="progress-bar bg-success" role="progressbar" aria-valuenow="@AttackerCurrentHpLog[i]" aria-valuemin="0" aria-valuemax="@Model.AttackerAndDeffenderModels[0].TotalHp"></div>
+                    </div>
+                }
+                @if (DeffenderAttacks[i] == -1)
+                {
+                    <div class="border rounded" style="width:150px; height:140px; text-align:center; line-height:150px;">
+                        <p class="text-warning">Miss!</p>
+                    </div>
+                    <div class="progress" style="width:150px; height:10px;">
+                        <div style="width:@((double)DeffenderCurrentHpLog[i + 1] * 100  / (double)Model.AttackerAndDeffenderModels[1].TotalHp)%" class="progress-bar bg-success" role="progressbar" aria-valuenow="@AttackerCurrentHpLog[i]" aria-valuemin="0" aria-valuemax="@Model.AttackerAndDeffenderModels[0].TotalHp"></div>
+                    </div>
+                }
+                @if (DeffenderAttacks[i] != -1 && DeffenderAttacks[i] != 0)
+                {
+                    <div class="border rounded" style="width:150px; height:140px; text-align:center; line-height:150px;">
+                        @if (@DeffenderAttacks[i] < 0)
+                        {
+                            <strong class="text-danger">@(@DeffenderAttacks[i] * -1)</strong>
+                        }
+                        else
+                        {
+                            <p>@DeffenderAttacks[i]</p>
+
+                        }
+                    </div>
+                    <div class="progress" style="width:150px; height:10px;">
+                        <div style="width:@((double)DeffenderCurrentHpLog[i + 1] * 100  / (double)Model.AttackerAndDeffenderModels[1].TotalHp)%" class="progress-bar bg-success" role="progressbar" aria-valuenow="@AttackerCurrentHpLog[i]" aria-valuemin="0" aria-valuemax="@Model.AttackerAndDeffenderModels[0].TotalHp"></div>
+                    </div>
+                }
+            </row>
+            <div class="row" style="height:140px;">
+
+            </div>
+            <row class="col-12">
+                @if (AttackerCurrentHpLog[i + 1] < 1)
+                {
+                    <h5 class="row border m-1 text-success justify-content-center">Winner : @Model.AttackerAndDeffenderModels[1].Nickname </h5>
+                    break;
+                }
+            </row>
+            <br />
+            i++;
+        }
+    </div>
+
+</div>

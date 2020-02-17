@@ -1,0 +1,237 @@
+﻿@model Aegis.Models.ViewModels.ItemViewModel
+@using Aegis.Utility;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" enctype="multipart/form-data" class="bg-dark text-white-50 rounded">
+
+    <div class=" backgroundWhite p-3">
+        <div class="form-group row">
+            <div class="col-10 offset-4">
+                <label class="text-white">Create Item</label>
+            </div>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Name" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Name" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Description" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Description" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Description" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Picture" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input type="file" name="files" multiple class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.ItemClass" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.ItemClass" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.ItemClass" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.ItemType" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <small>
+                    Weapon = 0, OffHand = 1, Armor = 2<br />
+                    Boots = 3, Helm = 4, Pants = 5<br />
+                    Ring = 6, Belt = 7, Neck = 8
+                </small>
+                <input asp-for="@Model.ItemList.ItemType" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.ItemType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Attack" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Attack" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Attack" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Deffense" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Deffense" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Deffense" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Gold" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Gold" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Gold" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Mana" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Mana" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Mana" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Crit" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Crit" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Crit" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Block" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Block" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Block" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.Evasion" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.Evasion" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.Evasion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.GoldPerHour" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.GoldPerHour" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.GoldPerHour" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.MaxMana" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.MaxMana" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.MaxMana" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.HealthPoints" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.HealthPoints" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.HealthPoints" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.LevelReq" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.LevelReq" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.LevelReq" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemList.ClassRequirement" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemList.ClassRequirement" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemList.ClassRequirement" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-10 offset-2">
+                <button class="btn btn-success form-group" asp-action="CreateItem" asp-controller="Item" asp-route-item="@Model" type="submit">Create <i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form method="post" enctype="multipart/form-data" class="bg-dark text-white-50 rounded">
+
+    <div class=" backgroundWhite p-3">
+        <div class="form-group row">
+            <div class="col-10 offset-4">
+                <label class="text-white">Add Item to player</label>
+            </div>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.PlayerId" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.PlayerId" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.PlayerId" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="@Model.ItemId" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.ItemId" class="form-control" />
+            </div>
+            <span asp-validation-for="@Model.ItemId" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-10 offset-2">
+                <button class="btn btn-success form-group" asp-action="AddItemToPlayer" asp-controller="Item" asp-route-item="@Model" type="submit">Create <i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+

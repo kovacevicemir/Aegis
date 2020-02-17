@@ -1,0 +1,1140 @@
+﻿@model Aegis.Models.ViewModels.PlayerProfileViewModel
+@using Microsoft.AspNetCore.Http;
+@using Aegis.Utility;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<div class="justify-content-center border row mb-1" style="width:1010px;"> &nbsp; Nickname | Level 70 | Class Knight | Experience 1434366 | Trade | Message (m) | Attack (x)</div>*@
+
+@{
+    var ssPlayerModel = HttpContextAccessor.HttpContext.Session.GetObject<PlayerModel>("ssPlayerModel");
+}
+<div class="border row">
+    <!--LEFT SIDE-->
+    <div class="col-md-8 border">
+
+        <!--Up-Left Side-->
+        <row class="justify-content-center d-flex p-1 ">
+            @if (Model.PlayerModel.Id != ssPlayerModel.Id)
+            {
+
+                var attackParams = new Dictionary<string, int>
+                    {
+                        {"id1", Model.PlayerModel.Id},
+                        {"id2", ssPlayerModel.Id }
+                    };
+
+                var test = new List<int>();
+                test.Add(Model.PlayerModel.Id);
+                test.Add(ssPlayerModel.Id);
+
+
+                <form method="post">
+
+
+                    <button asp-action="AttackPlayer" asp-controller="PlayerProfile" asp-route-id="@Model.PlayerModel.Id" type="submit" class="btn btn-danger m-1">Attack</button>
+                    <button class="btn btn-success m-1">Message</button>
+                    <button class="btn btn-primary m-1">Trade</button>
+                </form>
+
+            }
+
+            <strong class="border m-1 p-1"> @Model.PlayerModel.Nickname Level @Model.PlayerModel.Level Exp @Model.PlayerModel.Experience</strong>
+        </row>
+
+        <div class="row m-1 p-1">
+            <div style="width:650px; height:700px; background-color:#232121; border:1px solid purple; padding:10px;">
+                <div class="row m-1">
+                    <div class="col-4"></div>
+
+                    <div class="col-4">
+                        <!--H E A D -->
+                        <div class="showItemStats" style="width:125px;  height:125px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[4] != null)
+                            {
+                                @if (Model.EquipedItems[4].Name != "")
+                                {
+                                    <img src="@Model.EquipedItems[4].Picture" style="width:100%; height:100%;" />
+                                    <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                        <div class="row ml-1">
+                                            <strong class="text-info">@Model.EquipedItems[4].Name</strong>
+                                        </div>
+
+                                        @if (Model.EquipedItems[4].Attack != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Attack @Model.EquipedItems[4].Attack
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].Deffense != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Deffense @Model.EquipedItems[4].Deffense
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].HealthPoints != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Hp @Model.EquipedItems[4].HealthPoints
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].Block != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Block @Model.EquipedItems[4].Block %
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].Evasion != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Evasion @Model.EquipedItems[4].Evasion %
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].Crit != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Critical @Model.EquipedItems[4].Crit %
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].Mana != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Mana per hour @Model.EquipedItems[4].Mana
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].MaxMana != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                Max Mana @Model.EquipedItems[4].MaxMana
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].GoldPerHour != 0)
+                                        {
+                                            <div class="row ml-1">
+                                                GoldPerHour @Model.EquipedItems[4].GoldPerHour
+                                            </div>
+                                        }
+
+                                        @if (Model.EquipedItems[4].ClassRequirement != null)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>For @Model.EquipedItems[4].ClassRequirement</small>
+                                            </div>
+                                        }
+
+
+                                        @if (Model.EquipedItems[4].Id > 0)
+                                        {
+                                            @if (Model.EquipedItems[4].LevelReq > 0)
+                                            {
+                                                <div class="row ml-1">
+                                                    <small>Required level @Model.EquipedItems[4].LevelReq</small>
+                                                </div>
+                                            }
+                                            <div class="row ml-1">
+                                                <small>Merchant price @Model.EquipedItems[4].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                            </div>
+
+                                            <div class="row ml-1">
+                                                <a asp-route-id="@Model.EquipedItems[4].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                            </div>
+                                        }
+
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <!--N E C K-->
+                        <div id="8" class="showItemStats" style="width:75px; height:75px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[8].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[8].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[8].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[8].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[8].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[8].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[8].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[8].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[8].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[8].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[8].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[8].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[8].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[8].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[8].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[8].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[8].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[8].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[8].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[8].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row m-1">
+                    <div class="col-4">
+
+                        <!--W E A P O N-->
+                        <div id="0" class="showItemStats" style="width:150px; height:220px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[0].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[0].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[0].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[0].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[0].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[0].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[0].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[0].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[0].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[0].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[0].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[0].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[0].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[0].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[0].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[0].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[0].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[0].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[0].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[0].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+
+
+                    <!--A R M O R-->
+                    <div class="col-4">
+                        <div id="2" class="showItemStats" style="width:175px; height:250px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[2].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[2].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[2].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[2].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[2].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[2].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[2].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[2].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[2].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[2].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[2].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[2].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[2].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[2].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[2].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[2].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[2].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[2].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[2].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[2].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+
+                    <!--OFF H A N D-->
+                    <div class="col-4">
+                        <div id="1" class="showItemStats" style="width:150px; height:220px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[1].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[1].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[1].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[1].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[1].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[1].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[1].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[1].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[1].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[1].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[1].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[1].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[1].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[1].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[1].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[1].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[1].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[1].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[1].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[1].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-1">
+                    <div class="col-4">
+                        <!--B E L T-->
+                        <div id="7" class="showItemStats" style="width:120px; height:50px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[7].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[7].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[7].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[7].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[7].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[7].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[7].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[7].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[7].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[7].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[7].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[7].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[7].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[7].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[7].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[7].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[7].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[7].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[7].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[7].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <!--P A N T S-->
+                        <div id="5" class="showItemStats" style="width:135px; height:150px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[5].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[5].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[5].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[5].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[5].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[5].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[5].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[5].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[5].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[5].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[5].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[5].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[5].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[5].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[5].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[5].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[5].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[5].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[5].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[5].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <!--R I N G-->
+                        <div id="6" class="showItemStats" style="width:60px; height:60px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[6].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[6].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[6].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[6].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[6].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[6].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[6].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[6].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[6].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[6].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[6].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[6].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[6].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[6].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[6].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[6].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[6].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[6].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[6].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[6].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-1">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <!--B O O T S-->
+                        <div id="3" class="showItemStats" style="width:140px; height:110px; margin:auto; border:1px solid gray; background-color:#232121;">
+                            @if (Model.EquipedItems[3].Name != "")
+                            {
+                                <img src="@Model.EquipedItems[3].Picture" style="width:100%; height:100%;" />
+                                <div class="overlay p-1 bg-dark text-wrap text-white" style="position:absolute; z-index:99; width:150px;">
+
+                                    <div class="row ml-1">
+                                        <strong class="text-info">@Model.EquipedItems[3].Name</strong>
+                                    </div>
+
+                                    @if (Model.EquipedItems[3].Attack != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Attack @Model.EquipedItems[3].Attack
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].Deffense != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Deffense @Model.EquipedItems[3].Deffense
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].HealthPoints != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Hp @Model.EquipedItems[3].HealthPoints
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].Block != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Block @Model.EquipedItems[3].Block %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].Evasion != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Evasion @Model.EquipedItems[3].Evasion %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].Crit != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Critical @Model.EquipedItems[3].Crit %
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].Mana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Mana per hour @Model.EquipedItems[3].Mana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].MaxMana != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            Max Mana @Model.EquipedItems[3].MaxMana
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].GoldPerHour != 0)
+                                    {
+                                        <div class="row ml-1">
+                                            GoldPerHour @Model.EquipedItems[3].GoldPerHour
+                                        </div>
+                                    }
+
+                                    @if (Model.EquipedItems[3].ClassRequirement != null)
+                                    {
+                                        <div class="row ml-1">
+                                            <small>For @Model.EquipedItems[3].ClassRequirement</small>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.EquipedItems[3].Id > 0)
+                                    {
+                                        @if (Model.EquipedItems[3].LevelReq > 0)
+                                        {
+                                            <div class="row ml-1">
+                                                <small>Required level @Model.EquipedItems[3].LevelReq</small>
+                                            </div>
+                                        }
+                                        <div class="row ml-1">
+                                            <small>Merchant price @Model.EquipedItems[3].Gold <i class="fas fa-coins font-" style="color:yellow" aria-hidden="true"></i></small>
+                                        </div>
+
+                                        <div class="row ml-1">
+                                            <a asp-route-id="@Model.EquipedItems[3].Id" asp-controller="Inventory" asp-area="Customer" asp-action="UnEquipItem" class="btn-sm">Un-Equip</a>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--Down-Left Side-->
+        <div class="row m-1">
+            <div class="col-6 m-1" style="width:650px; height:300px; padding:10px;">
+                Attack: @Model.PlayerModel.TotalAttack<br />
+                Deffense: @Model.PlayerModel.TotalDeffense<br />
+                Health Points: @Model.PlayerModel.TotalHp <br />
+                Block: @Model.PlayerModel.TotalBlock<br />
+                Evasion: @Model.PlayerModel.TotalEvasion<br />
+                Critical: @Model.PlayerModel.TotalCrit<br />
+                Gold Per Hour: @Model.PlayerModel.TotalGoldH<br />
+                Mana Per Hour: @Model.PlayerModel.TotalManaH<br />
+                Max Mana: @Model.PlayerModel.TotalMaxMana<br />
+            </div>
+            <div class="col-5 m-1">
+                <hr style="border-top:1px solid black; color:black;" />
+                <div class="row">
+                    <div class="col-5">
+                        Guild:
+                        @if (Model.PlayerGuild != null)
+                        {
+                            <a asp-action="Index" asp-controller="Guild" asp-route-id="@Model.PlayerGuild.Id">@Model.PlayerGuild.Name</a>
+                        }
+                    </div>
+                    <div class="col-7">
+                        @if (Model.PlayerGuild != null)
+                        {
+                            <img src="@Model.PlayerGuild.Picture" style="width:100px; height:100px;" />
+                        }
+                    </div>
+                </div>
+                <hr style="border-top:1px solid black; color:black;" />
+                <strong>Gold:&nbsp; @Model.PlayerModel.Gold </strong><br />
+                <p style="font-size:10px;">Gold Rank: @Model.GoldRank</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--RIGHT SIDE-->
+    <div class="col-md-4 border">
+
+        <!--Up-Right Side-->
+        <div class="row">
+            <div style="width:350px; height:333px;  text-align:center; padding:5px;">
+                <img src="http://www.jamespreller.com/wp-content/uploads/2009/07/yoda-300x300.jpg" style="width:300px; height:300px;" />
+            </div>
+        </div>
+
+        <!--Mid-Right Side-->
+        <div class="row">
+            <div style="width:350px; height:300px;  overflow-wrap:break-word; padding:10px; font-style:italic;">
+                <p class="p-1 col-11" style="overflow-wrap:break-word;">@Model.PlayerModel.StatusMessage</p>
+
+                @if (Model.PlayerModel.Id == ssPlayerModel.Id)
+                {
+                    <button id="toggleStatusUpdate" class="small">Update</button>
+                }
+
+                <form method="post" class="border col-md-11 p-1" id="updateStatusForm" style="display:none;">
+                    <h6 class="text-info text-black-50 m-1 border-right">Update Status...</h6>
+
+                    <textarea class="form-control col-md-12" maxlength="200" name="NewStatusMessage" id="NewStatusMessage"></textarea>
+                    <button type="submit" class="btn  btn-success col-12" asp-action="StatusMessagePost" asp-controller="PlayerProfile" asp-route-id="@Model.PlayerModel.Id">Post</button>
+                </form>
+            </div>
+        </div>
+
+        <!--Down-Right Side-->
+        <div class="row">
+            <div style="width:320px; height:366px; padding:10px;">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Successfull Attacks:</th>
+                            <td>@Model.PlayerModel.PlayerK</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Successfull Defense:</th>
+                            <td>@Model.PlayerModel.PlayerD</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Monsters Killed:</th>
+                            <td>@Model.PlayerModel.MobsK</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Account Created:</th>
+                            <td>@Model.PlayerModel.DateCreated</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">World Ranking:</th>
+                            <td>@Model.PlayerRank</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

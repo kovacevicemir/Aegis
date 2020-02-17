@@ -1,0 +1,173 @@
+﻿@model Aegis.Models.ViewModels.HomeViewModel
+@using Microsoft.AspNetCore.Http;
+@using Aegis.Utility;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row d-flex justify-content-center bg-primary">
+    <img src="http://mavag.persiangig.com/image/mavag-%20baner%20-%20tnt0352.gif" />
+</div>
+<br />
+
+<div class="row d-flex justify-content-center bg-warning">
+    <h5 class="text-white">Level Ranking</h5>
+</div>
+<div class="border border-warning row">
+    <!--First Row-->
+    <div class="col-md-4 d-flex justify-content-center border  ">
+        <ol>
+            <strong class="border-bottom">Top 10 Knight</strong>
+            @foreach (var item in Model.KnightRanking)
+            {
+                <li><a class="text-decoration-none" style="color:black;" asp-action="Index" asp-controller="PlayerProfile" asp-route-id="@item.Id">@item.Nickname</a> | @item.Level | Exp: @item.Experience</li>
+            }
+            <a asp-action="Top100" asp-controller="Home" asp-route-str="Knight">See top 100</a>
+        </ol>
+    </div>
+    <div class="col-md-4 d-flex justify-content-center border">
+        <ol>
+            <strong class="border-bottom">Top 10 Archer</i></strong>
+            @foreach (var item in Model.ArcherRanking)
+            {
+                <li><a class="text-decoration-none" style="color:black;" asp-action="Index" asp-controller="PlayerProfile" asp-route-id="@item.Id">@item.Nickname</a> | @item.Level | Exp: @item.Experience</li>
+            }
+            <a asp-action="Top100" asp-controller="Home" asp-route-str="Archer">See top 100</a>
+        </ol>
+    </div>
+    <div class="col-md-4 d-flex justify-content-center border">
+        <ol>
+            <strong class="border-bottom">Top 10 Mage</strong>
+            @foreach (var item in Model.MageRanking)
+            {
+                <li><a class="text-decoration-none" style="color:black;" asp-action="Index" asp-controller="PlayerProfile" asp-route-id="@item.Id">@item.Nickname</a> | @item.Level | Exp: @item.Experience</li>
+            }
+            <a asp-action="Top100" asp-controller="Home" asp-route-str="Mage">See top 100</a>
+        </ol>
+    </div>
+</div>
+
+
+<br />
+<div class="row d-flex justify-content-center border">
+    <h5>Global Chat</h5>
+</div>
+
+<div class="border row">
+    <div style="padding:10px;">
+        <table class="table table-striped">
+            <tbody>
+                @foreach (var item in Model.GlobalChatMessageList)
+                {
+
+                    <tr>
+                        <th scope="row">
+                            @if (item.Player == null)
+                            {
+                                <p>no name...</p>
+                            }
+                            else
+                            {
+                                <a class="text-decoration-none" style="color:black;" asp-action="Index" asp-controller="PlayerProfile" asp-route-id="@item.PlayerId">@item.Player.Nickname </a>
+                            }
+                        </th>
+                        <td>@item.Message</td>
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+    </div>
+    @{var ssPlayerModel = HttpContextAccessor.HttpContext.Session.GetObject<PlayerModel>
+                                ("ssPlayerModel");
+    }
+
+    @if (ssPlayerModel != null)
+    {
+<form method="post" class="border d-flex col-md-12 p-1">
+    <h6 class="text-info text-black-50 m-1 border-right"> Write your <br />own message &nbsp;<i class="fas fa-feather-alt text-black-50"></i></h6>
+
+
+
+    <textarea class="form-control col-md-8" maxlength="200" name="NewGlobalMessage" id="NewGlobalMessage"></textarea>
+    @if (ssPlayerModel.Gold > 100)
+    {
+        <button type="submit" class="btn btn-success col-1 m-1" asp-action="GlobalMessagePost" asp-controller="Home" asp-route-id="@ssPlayerModel.Id">Post</button>
+    }
+    <strong class="m-1">Cost:<br />@SD.GlobalMessagePrice <i class="fas fa-coins font-"></i></strong>
+</form>
+    }
+</div>
+
+<br />
+<div class="row d-flex justify-content-center bg-danger">
+    <h5 class="text-white">Domination Ranking</h5>
+</div>
+
+<div class="border border-danger row">
+    <!--Third Row-->
+    <div class="col-md-4 d-flex justify-content-center border">
+        <ol>
+            <strong class="border-bottom">Top 10 Gold</strong>
+            @foreach (var item in Model.GoldRanking)
+            {
+                <li><a class="text-decoration-none" style="color:black;" asp-action="Index" asp-controller="PlayerProfile" asp-route-id="@item.Id">@item.Nickname </a> | Gold: @item.Gold <i class="fas fa-coins font-"></i> </li>
+
+            }
+            <a asp-action="Top100" asp-controller="Home" asp-route-str="Gold">See top 100</a>
+        </ol>
+    </div>
+    <div class="col-md-4 d-flex justify-content-center border">
+        <ol>
+            <strong class="border-bottom">Top 10 Crew</strong>
+            @foreach (var item in Model.CrewRanking)
+            {
+                <li><a asp-action="Index" asp-controller="Guild" asp-route-id="@item.Id">@item.Name</a> | Gold: @item.GuildGold <i class="fas fa-coins font-"></i></li>
+            }
+            <a asp-action="Top100" asp-controller="Home" asp-route-str="Guild">See top 100</a>
+        </ol>
+    </div>
+    <div class="col-md-4 d-flex justify-content-center border">
+        <ol>
+            <strong class="border-bottom">Top 10 Power</strong>
+            @foreach (var item in Model.PowerRanking)
+            {
+                <li><a class="text-decoration-none" style="color:black;" asp-action="Index" asp-controller="PlayerProfile" asp-route-id="@item.Id">@item.Nickname </a> | Power: @item.TotalAttack <i class="fas fa-khanda"></i></li>
+            }
+            <a asp-action="Top100" asp-controller="Home" asp-route-str="Power">See top 100</a>
+        </ol>
+    </div>
+</div>
+
+<br />
+<div class="row d-flex justify-content-center">
+    <h4>News</h4>
+</div>
+
+<div class="border row p-3">
+    <div class="col-md-4">
+        <img src="data:image/jpeg;base64,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" />
+    </div>
+    <div class="col-md-8">
+        <h6>Where does it come from?</h6>
+        <p>
+            1. Profile <br />
+            2. Inventory<br />
+            3. World<br />
+            4. Bank<br />
+            5. Trade<br />
+            6. Crew<br />
+            7. Merchant<br />
+            8. Bounty<br />
+            9. Market<br />
+            10. Message<br />
+            11. Polish
+            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+            The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham
+        </p>
+    </div>
+
+</div>

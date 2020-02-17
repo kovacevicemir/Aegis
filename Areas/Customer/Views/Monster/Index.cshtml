@@ -1,0 +1,254 @@
+﻿@model Aegis.Models.ViewModels.MonsterAndRoomViewModel
+@using Microsoft.AspNetCore.Http;
+@using Aegis.Utility;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Monster & Room</h1>
+
+@{
+    var ssPlayerModel = HttpContextAccessor.HttpContext.Session.GetObject<PlayerModel>("ssPlayerModel");
+}
+
+<div class="col-12 row" style="width:900px;">
+
+    <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data" class="bg-dark text-white-50 rounded">
+
+            <div class=" backgroundWhite p-3">
+                <div class="form-group row">
+                    <div class="col-10 offset-4">
+                        <label class="text-white">Create Monster</label>
+                    </div>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Name" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Name" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Level" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Level" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Level" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Picture" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input type="file" name="files" multiple class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Hp" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Hp" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Hp" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.MinAttack" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.MinAttack" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.MinAttack" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.MaxAttack" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.MaxAttack" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.MaxAttack" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Block" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Block" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Block" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.DropList" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.DropList" value="0/0/0" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.DropList" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Drop1Chance" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Drop1Chance" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Drop1Chance" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Drop2Chance" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Drop2Chance" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Drop2Chance" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Drop3Chance" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Drop3Chance" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Drop3Chance" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.GoldPerKill" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.GoldPerKill" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.GoldPerKill" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Monster.Exp" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Monster.Exp" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Monster.Exp" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-10 offset-2">
+                        <button class="btn btn-success form-group" asp-action="CreateMonster" asp-controller="Monster" asp-route-guild="@Model" type="submit">Create <i class="fas fa-plus" asp-ac></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data" class="bg-dark text-white-50 rounded">
+
+            <div class=" backgroundWhite p-3">
+                <div class="form-group row">
+                    <div class="col-10 offset-4">
+                        <label class="text-white">Create Room</label>
+                    </div>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Room.Location" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Room.Location" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Room.Location" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Room.QuestId" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Room.QuestId" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Room.QuestId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Room.RoomPicture" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input type="file" name="files" multiple class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Room.RespawnTime" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Room.RespawnTime" value="30/30/30" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Room.RespawnTime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Room.MonsterList" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Room.MonsterList" value="0/0/0" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Room.MonsterList" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="@Model.Room.MonsterCount" class="col-form-label"></label>
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="@Model.Room.MonsterCount" value="0/0/0" class="form-control" />
+                    </div>
+                    <span asp-validation-for="@Model.Room.MonsterCount" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-10 offset-2">
+                        <button class="btn btn-success form-group" asp-action="CreateRoom" asp-controller="Monster" asp-route-guild="@Model" type="submit">Create <i class="fas fa-plus" asp-ac></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+

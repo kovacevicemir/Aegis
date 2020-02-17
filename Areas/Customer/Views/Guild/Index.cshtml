@@ -1,0 +1,240 @@
+﻿@model Aegis.Models.ViewModels.GuildViewModel
+@using Microsoft.AspNetCore.Http;
+@using Aegis.Utility;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Guild";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var ssPlayerModel = HttpContextAccessor.HttpContext.Session.GetObject<PlayerModel>("ssPlayerModel");
+}
+
+@if (Model.Guild == null)
+{
+    <div class="col-12 row" style="width:900px;">
+
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data" class="bg-dark text-white-50 rounded">
+
+                <div class=" backgroundWhite p-3">
+                    <div class="form-group row">
+                        <div class="col-10 offset-4">
+                            <label class="text-white">Create Guild</label>
+                        </div>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.Name" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="@Model.Guild.Name" class="form-control" />
+                        </div>
+                        <span asp-validation-for="@Model.Guild.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.GuildTax" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="@Model.Guild.GuildTax" class="form-control" />
+                        </div>
+                        <span asp-validation-for="@Model.Guild.GuildTax" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.Picture" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input type="file" name="files" multiple class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.rank1" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="@Model.Guild.rank1" class="form-control" />
+                        </div>
+                        <span asp-validation-for="@Model.Guild.rank1" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.rank2" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="@Model.Guild.rank2" class="form-control" />
+                        </div>
+                        <span asp-validation-for="@Model.Guild.rank2" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.rank3" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="@Model.Guild.rank3" class="form-control" />
+                        </div>
+                        <span asp-validation-for="@Model.Guild.rank3" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="@Model.Guild.rank4" class="col-form-label"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="@Model.Guild.rank4" class="form-control" />
+                        </div>
+                        <span asp-validation-for="@Model.Guild.rank4" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-10 offset-2">
+                            <button class="btn btn-success form-group" asp-action="CreateGuild" asp-controller="Guild" asp-route-guild="@Model.Guild" type="submit">Create <i class="fas fa-plus" asp-ac></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        @*<div class="col-md-6 bg-dark">
+            <div class="form-group row">
+                <div class="col-8 offset-4 mt-3">
+                    <label class="text-white">Guild invitations:</label>
+                </div>
+            </div>
+
+            @()
+        </div>*@
+    </div>
+
+}
+else
+{
+    <div class="border row">
+        <!--LEFT SIDE-->
+        <div class="col-md-8 border">
+
+            <!--Up-Left Side-->
+            <row class="justify-content-center d-flex p-1 ">
+
+
+
+                <strong class="border m-1 p-1">@Model.Guild.Name</strong>
+            </row>
+
+            <div class="row m-1 p-1">
+                <img class="border border-warning" style="width:600px; height:500px;" src="@Model.Guild.Picture" />
+            </div>
+
+            <!--mid-Left Side-->
+            <div class="row m-1">
+                <div class="col-6 m-1" style="width:650px; height:160px; padding:10px;">
+                    Attack Multiplier: @Model.Guild.AttackMultiplier %<br />
+                    Deffense Multiplier: @Model.Guild.DeffenseMultiplier %<br />
+                    Attack+: @Model.Guild.GuildAttackAdd  <br />
+                    Deffense+: @Model.Guild.GuildDeffenseAdd<br />
+                    TAX: @Model.Guild.GuildTax %<br />
+                </div>
+                <div class="col-5 m-1">
+                    <hr style="border-top:1px solid black; color:black;" />
+                    <div class="row">
+                        <div class="col-6">Leader:</div>
+                        <div class="col-6">
+                            <strong>@Model.Guild.Leader</strong>
+                        </div>
+                    </div>
+                    <hr style="border-top:1px solid black; color:black;" />
+                    <strong>Gold:&nbsp;  </strong><br />
+                    <p style="font-size:10px;">Gold Rank:</p>
+                </div>
+            </div>
+
+            <!--Down-Left Side-->
+            <div class="row m-2">
+                <h6>Guild Supplies</h6>
+                <div class="col-12 border d-inline-flex justify-content-center" style="width:650px; height:120px; line-height:110px; padding:15px;">
+                    <div class="col-3"><i class="fas fa-4x fa-shield-alt"></i>x0</div>
+                    <div class="col-3"><i class="fas fa-4x fa-fan"></i>x0</div>
+                    <div class="col-3"><i class="fas fa-4x fa-dumbbell"></i>x0</div>
+                    <div class="col-3"><i class="fas fa-4x fa-clinic-medical"></i>x0</div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--RIGHT SIDE-->
+        <div class="col-md-4 border">
+
+            <!--Down-Right Side-->
+
+            
+            <div class="row">
+                <div style="width:320px; padding:10px;">
+                    <h6>Guild Members</h6>
+                    <table class="table table-striped">
+                        <tbody>
+
+                            @foreach (var item in Model.MemberList)
+                            {
+                                <tr>
+                                    <td>@item.GuildRank</td>
+                                    <td>@item.Nickname</td>
+                                    <td>@item.Level</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width:320px; padding:10px;">
+                    @if (ssPlayerModel.GuildName == Model.Guild.Name)
+                    {
+                    <form method="post" class=" border p-1 bg-dark text-white-50">
+                        <div class="col-12 d-inline-flex">
+                            <label class="col-5 ">Nickname:</label>
+                            <input id="invitePlayerToGuild" name="invitePlayerToGuild" class="form-control col-7 text-decoration-none" />
+                        </div>
+                        <button asp-action="InviteToGuild" asp-controller="Guild" type="submit" class="form-control btn btn-success">Invite</button>
+                        
+                        <div class="border rounded col-6 bg-dark text-white-50 p-1 mt-2">
+                            <label class="small">Leave guild</label>
+                            <button type="submit" asp-action="LeaveGuild" asp-area="Customer" asp-controller="Guild" asp-route-guildname="@Model.Guild.Name" class="btn btn-xs bg-white"><i class="fas fa-sign-out-alt"></i></button>
+                        </div>
+                    </form>
+
+                       
+                    }
+
+                    @{
+                        var invList = Model.Guild.InvitationList.Split(",").ToList();
+                        foreach (var item in invList)
+                        {
+                            if (item == ssPlayerModel.Nickname)
+                            {
+                                <form method="post" class=" border p-1 bg-dark text-white-50">
+                                    <div class="col-12 d-inline-flex">
+                                        <label class="col-8 offset-3 ">Join this guild !</label>
+                                    </div>
+                                    <button asp-action="AcceptGuildInvite" asp-controller="Guild" asp-route-guildname="@Model.Guild.Name" type="submit" class="form-control btn btn-success">Join</button>
+                                </form>
+                            }
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
