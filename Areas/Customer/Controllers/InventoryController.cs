@@ -39,6 +39,7 @@ namespace Aegis.Areas.Customer.Controllers
                 var split2 = split.ToList();
 
                 var itemListIds = split2.Select(s => Convert.ToInt32(s)).ToList();
+                //ova greska se desava ako inventory ostane prazan... treba napraviti if statement ako je prazan da ga vrati na default postavku
 
                 List<Item> ItemList = new List<Item>();
 
@@ -185,6 +186,31 @@ namespace Aegis.Areas.Customer.Controllers
             return RedirectToAction("Index", "PlayerProfile", new {  id = ssPlayerModel.Id });
         }
 
+
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            var ssPlayerModel = HttpContext.Session.GetObject<PlayerModel>("ssPlayerModel");
+
+            var inventory = _db.Inventory.FirstOrDefault(i => i.Id == ssPlayerModel.Id);
+            var inventoryItemList = inventory.InventoryItemList;
+
+            string[] splitForDelete = inventoryItemList.Split(',');
+            var splitForDelete2 = splitForDelete.ToList();
+
+
+            splitForDelete2.Remove(new string(id.ToString()));
+            var splitForDelete3 = splitForDelete2.ToArray();
+
+            var result2 = string.Join(",", splitForDelete3);
+            inventoryItemList = result2;
+
+            inventory.InventoryItemList = inventoryItemList;
+            _db.Inventory.Update(inventory);
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
+
+        }
 
 
         //Help methods***

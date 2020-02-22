@@ -336,12 +336,13 @@ namespace Aegis.Areas.Customer.Controllers
 
         //NOT WORKING WTF ? //PROBABLY AJAX CALL DATA
         [HttpPost]
-        public async Task<IActionResult> AwardPlayerOnKill(int gold, int exp)
+        public async Task<IActionResult> AwardPlayerOnKill(int gold, int exp, int mana)
         {
             var ssPlayerModel = HttpContext.Session.GetObject<PlayerModel>("ssPlayerModel");
             ssPlayerModel.Gold = ssPlayerModel.Gold + gold;
             ssPlayerModel.MobsK++;
             ssPlayerModel.Experience = ssPlayerModel.Experience + exp;
+            ssPlayerModel.CurrentMana = ssPlayerModel.CurrentMana - mana;
 
             _db.PlayerModel.Update(ssPlayerModel);
             await _db.SaveChangesAsync();

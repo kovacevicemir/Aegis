@@ -94,7 +94,7 @@ namespace Aegis.Areas.Customer.Controllers
 
             _db.Inventory.Update(inventory);
 
-            await _db.SaveChangesAsync();
+            _db.SaveChangesAsync();
 
             return RedirectToAction("Index");
 

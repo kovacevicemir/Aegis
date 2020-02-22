@@ -370,7 +370,7 @@
                     success: function (data) {
                         $('#Monsters').empty();
                         console.log(data);
-                        console.log(data.room.monsterList + ' monster count');
+                        console.log(data.room.monsterList + ' monster id x/o/o first');
                         console.log(data.room);
 
                         $('#RoomPicture').empty().append('<img style="max-width:250px; margin-top:5px; margin-bottom:5px;" src="' + data.room.roomPicture + '">');
@@ -383,6 +383,7 @@
 
                         //Za svakog monstera dodajemo broj monstera u toj sobi
                         data.monsterList.forEach(function (item) {
+
 
                             for (im = mcTempCount; im > 0; im--) {
                                 //dodajemo monster dugme, sliku, lvl...
@@ -467,7 +468,7 @@
 
                                                             //Award player with: exp, gold, mob kill count
                                                             $.ajax({
-                                                                url: 'https://localhost:44337/Customer/PlayerProfile/AwardPlayerOnKill?gold=' + data.monsterList[0].goldPerKill + '&exp=' + data.monsterList[0].exp,
+                                                                url: 'https://localhost:44337/Customer/PlayerProfile/AwardPlayerOnKill?gold=' + data.monsterList[0].goldPerKill + '&exp=' + data.monsterList[0].exp + '&mana=' +data.monsterList[0].manaCost,
                                                                 type: 'POST',
                                                                 success: function (AwardExpData) {
                                                                     console.log('exp awarded: ' + data.monsterList[0].exp);

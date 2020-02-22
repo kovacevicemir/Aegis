@@ -47,5 +47,7 @@ namespace Aegis.Models
 
         public int GoldPerKill { get; set; } = 0;
         public int Exp { get; set; } = 0;
+
+        public int ManaCost { get; set; } = 1;
     }
 }
