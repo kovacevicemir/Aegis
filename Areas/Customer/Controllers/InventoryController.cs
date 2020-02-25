@@ -22,14 +22,14 @@ namespace Aegis.Areas.Customer.Controllers
         public IActionResult Index(int playerId)
         {
             var inventory = _db.Inventory.FirstOrDefault(i => i.Id == playerId);
-            if(inventory.InventoryItemList == "")
+            if (string.IsNullOrEmpty(inventory.InventoryItemList))
             {
                 List<Item> ItemList1 = new List<Item>();
                 return View(ItemList1);
             }
             else
             {
-                if(inventory.InventoryItemList == "" || inventory.InventoryItemList == null)
+                if (inventory.InventoryItemList == "" || inventory.InventoryItemList == null)
                 {
                     List<Item> list = new List<Item>();
                     return View(list);
@@ -54,9 +54,9 @@ namespace Aegis.Areas.Customer.Controllers
             }
 
 
-            
+
         }
-        
+
         //
 
         public async Task<IActionResult> EquipItem(int id)
@@ -96,7 +96,7 @@ namespace Aegis.Areas.Customer.Controllers
             //check if inventory is empty
             if (splitForDelete2.Count() < 1)
             {
-                inventory.InventoryItemList = null;
+                inventory.InventoryItemList = string.Empty;
                 _db.Inventory.Update(inventory);
                 await _db.SaveChangesAsync();
             }
@@ -172,7 +172,7 @@ namespace Aegis.Areas.Customer.Controllers
             var inventory = _db.Inventory.FirstOrDefault(i => i.Id == ssPlayerModel.Id);
             var inventoryItemList = inventory.InventoryItemList;
 
-            if(inventoryItemList == null)
+            if (string.IsNullOrEmpty(inventoryItemList))
             {
                 inventory.InventoryItemList = item.Id.ToString();
             }
@@ -198,7 +198,7 @@ namespace Aegis.Areas.Customer.Controllers
 
             await _db.SaveChangesAsync();
             HttpContext.Session.SetObject("ssPlayerModel", ssPlayerModel);
-            return RedirectToAction("Index", "PlayerProfile", new {  id = ssPlayerModel.Id });
+            return RedirectToAction("Index", "PlayerProfile", new { id = ssPlayerModel.Id });
         }
 
 
@@ -216,11 +216,10 @@ namespace Aegis.Areas.Customer.Controllers
             //check if inventory is empty
             if (splitForDelete2.Count() < 1)
             {
-                inventory.InventoryItemList = null;
+                inventory.InventoryItemList = string.Empty;
                 _db.Inventory.Update(inventory);
-
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
+
             }
             else
             {
@@ -229,13 +228,20 @@ namespace Aegis.Areas.Customer.Controllers
                 var result2 = string.Join(",", splitForDelete3);
                 inventoryItemList = result2;
 
+                
                 inventory.InventoryItemList = inventoryItemList;
                 _db.Inventory.Update(inventory);
-
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
+
             }
 
+            //Delete item from item database list
+            Item itemForDelete = new Item();
+            itemForDelete.Id = id;
+            _db.Item.Remove(itemForDelete);
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
 
         }
 
@@ -245,7 +251,7 @@ namespace Aegis.Areas.Customer.Controllers
         //Equip item status update
         public PlayerModel UpdatePlayerStatsOnEquip(PlayerModel player, Item item)
         {
-            if(item.Attack > 0)
+            if (item.Attack > 0)
             {
                 player.TotalAttack += item.Attack;
             }
@@ -285,7 +291,7 @@ namespace Aegis.Areas.Customer.Controllers
                 player.TotalHp += item.HealthPoints;
             }
 
-            if(item.GoldPerHour > 0)
+            if (item.GoldPerHour > 0)
             {
                 player.TotalGoldH += item.GoldPerHour;
             }

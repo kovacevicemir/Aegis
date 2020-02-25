@@ -21,5 +21,8 @@ namespace Aegis.Utility
 
         //notifications
         public const string GuildInvite = "Guild invite";
+
+        
     }
+
 }

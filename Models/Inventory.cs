@@ -14,6 +14,7 @@ namespace Aegis.Models
 
         public int Count { get; set; }
 
-        public string InventoryItemList { get; set; }
+        //added =null; 25.feb.20 as try to fix some bug with equip/unequip etc.
+        public string InventoryItemList { get; set; } = string.Empty;
     }
 }

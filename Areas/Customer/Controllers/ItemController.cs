@@ -94,7 +94,7 @@ namespace Aegis.Areas.Customer.Controllers
 
             _db.Inventory.Update(inventory);
 
-            _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
             return RedirectToAction("Index");
 
@@ -132,19 +132,21 @@ namespace Aegis.Areas.Customer.Controllers
             item.PlayerId = itemViewModel.PlayerId;
 
             _db.Item.Add(item);
+            await _db.SaveChangesAsync();
+
 
             var inventory = _db.Inventory.FirstOrDefault(i => i.Id == itemViewModel.PlayerId);
             string inventoryItemList = inventory.InventoryItemList;
-            if (inventoryItemList == null)
+            if (string.IsNullOrEmpty(inventoryItemList))
             {
-                int newItemId = _db.Item.OrderByDescending(u => u.Id).Select(i => i.Id).FirstOrDefault();
-                newItemId = newItemId + 1;
+                int newItemId = _db.Item.OrderByDescending(u => u.Id).Where(s => s.PlayerId == ssPlayerModel.Id).Select(i => i.Id).FirstOrDefault();
+                //newItemId = newItemId + 1;
                 inventoryItemList = newItemId.ToString();
             }
             else
             {
-                int newItemId = _db.Item.OrderByDescending(u => u.Id).Select(i => i.Id).FirstOrDefault();
-                newItemId = newItemId + 1;
+                int newItemId = _db.Item.OrderByDescending(u => u.Id).Where(s => s.PlayerId == ssPlayerModel.Id).Select(i => i.Id).FirstOrDefault();
+                //newItemId = newItemId + 1;
 
                 string[] split = inventoryItemList.Split(',');
                 var split2 = split.ToList();
