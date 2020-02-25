@@ -91,18 +91,26 @@ namespace Aegis.Areas.Customer.Controllers
 
             string[] splitForDelete = inventoryItemList.Split(',');
             var splitForDelete2 = splitForDelete.ToList();
-
-
-
             splitForDelete2.Remove(new string(item.Id.ToString()));
-            var splitForDelete3 = splitForDelete2.ToArray();
 
-            var result2 = string.Join(",", splitForDelete3);
-            inventoryItemList = result2;
+            //check if inventory is empty
+            if (splitForDelete2.Count() < 1)
+            {
+                inventory.InventoryItemList = null;
+                _db.Inventory.Update(inventory);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                var splitForDelete3 = splitForDelete2.ToArray();
 
-            inventory.InventoryItemList = inventoryItemList;
-            await _db.SaveChangesAsync();
-            //ovdje bi trebao biti ""
+                var result2 = string.Join(",", splitForDelete3);
+                inventoryItemList = result2;
+
+                inventory.InventoryItemList = inventoryItemList;
+                await _db.SaveChangesAsync();
+            }
+
 
             //Check if equiped part II
             if (check > 0)
@@ -164,17 +172,24 @@ namespace Aegis.Areas.Customer.Controllers
             var inventory = _db.Inventory.FirstOrDefault(i => i.Id == ssPlayerModel.Id);
             var inventoryItemList = inventory.InventoryItemList;
 
-            string[] splitForDelete = inventoryItemList.Split(',');
-            var splitForDelete2 = splitForDelete.ToList();
+            if(inventoryItemList == null)
+            {
+                inventory.InventoryItemList = item.Id.ToString();
+            }
+            else
+            {
+                string[] splitForDelete = inventoryItemList.Split(',');
+                var splitForDelete2 = splitForDelete.ToList();
 
-            splitForDelete2.Add(new string(item.Id.ToString()));
-            var splitForDelete3 = splitForDelete2.ToArray();
+                splitForDelete2.Add(new string(item.Id.ToString()));
+                var splitForDelete3 = splitForDelete2.ToArray();
 
-            var result2 = string.Join(",", splitForDelete3);
-            inventoryItemList = result2;
+                var result2 = string.Join(",", splitForDelete3);
+                inventoryItemList = result2;
 
-            inventory.InventoryItemList = inventoryItemList;
-            //ovdje bi trebao biti ""
+                inventory.InventoryItemList = inventoryItemList;
+                //ovdje bi trebao biti ""
+            }
 
             _db.Inventory.Update(inventory);
 
@@ -196,19 +211,31 @@ namespace Aegis.Areas.Customer.Controllers
 
             string[] splitForDelete = inventoryItemList.Split(',');
             var splitForDelete2 = splitForDelete.ToList();
-
-
             splitForDelete2.Remove(new string(id.ToString()));
-            var splitForDelete3 = splitForDelete2.ToArray();
 
-            var result2 = string.Join(",", splitForDelete3);
-            inventoryItemList = result2;
+            //check if inventory is empty
+            if (splitForDelete2.Count() < 1)
+            {
+                inventory.InventoryItemList = null;
+                _db.Inventory.Update(inventory);
 
-            inventory.InventoryItemList = inventoryItemList;
-            _db.Inventory.Update(inventory);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
+            }
+            else
+            {
+                var splitForDelete3 = splitForDelete2.ToArray();
 
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
+                var result2 = string.Join(",", splitForDelete3);
+                inventoryItemList = result2;
+
+                inventory.InventoryItemList = inventoryItemList;
+                _db.Inventory.Update(inventory);
+
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
+            }
+
 
         }
 
