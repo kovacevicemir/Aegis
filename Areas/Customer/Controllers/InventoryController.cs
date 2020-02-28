@@ -6,6 +6,7 @@ using Aegis.Data;
 using Microsoft.AspNetCore.Mvc;
 using Aegis.Models;
 using Aegis.Utility;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aegis.Areas.Customer.Controllers
 {
@@ -219,7 +220,7 @@ namespace Aegis.Areas.Customer.Controllers
             {
                 inventory.InventoryItemList = string.Empty;
                 _db.Inventory.Update(inventory);
-                _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
             }
             else
@@ -232,7 +233,7 @@ namespace Aegis.Areas.Customer.Controllers
                 
                 inventory.InventoryItemList = inventoryItemList;
                 _db.Inventory.Update(inventory);
-                _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
             }
 
@@ -242,6 +243,8 @@ namespace Aegis.Areas.Customer.Controllers
             _db.Item.Remove(itemForDelete);
 
             await _db.SaveChangesAsync();
+            _db.Entry(inventory).State = EntityState.Detached;
+
             return RedirectToAction("Index", new { playerId = ssPlayerModel.Id });
 
         }

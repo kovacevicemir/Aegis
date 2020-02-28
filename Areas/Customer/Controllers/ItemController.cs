@@ -163,6 +163,8 @@ namespace Aegis.Areas.Customer.Controllers
             inventory.InventoryItemList = inventoryItemList;
             _db.Inventory.Update(inventory);
             _db.SaveChanges();
+
+            //this fixed bug with appearing/dissappearing - _db uses local inventory instead of pulling new one...
             _db.Entry(inventory).State = EntityState.Detached;
 
 
