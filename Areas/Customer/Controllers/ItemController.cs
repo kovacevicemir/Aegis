@@ -7,6 +7,7 @@ using Aegis.Models;
 using Aegis.Models.ViewModels;
 using Aegis.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aegis.Areas.Customer.Controllers
 {
@@ -134,9 +135,9 @@ namespace Aegis.Areas.Customer.Controllers
             _db.Item.Add(item);
             await _db.SaveChangesAsync();
 
-
             var inventory = _db.Inventory.FirstOrDefault(i => i.Id == itemViewModel.PlayerId);
-            string inventoryItemList = inventory.InventoryItemList;
+            var inventoryItemList = inventory.InventoryItemList;
+
             if (string.IsNullOrEmpty(inventoryItemList))
             {
                 int newItemId = _db.Item.OrderByDescending(u => u.Id).Where(s => s.PlayerId == ssPlayerModel.Id).Select(i => i.Id).FirstOrDefault();
@@ -151,20 +152,20 @@ namespace Aegis.Areas.Customer.Controllers
                 string[] split = inventoryItemList.Split(',');
                 var split2 = split.ToList();
 
-                split2.Add(newItemId.ToString());
+                split2.Add(new string(newItemId.ToString()));
                 var split3 = split2.ToArray();
 
                 var result = string.Join(",", split3);
                 inventoryItemList = result;
 
-
             }
 
             inventory.InventoryItemList = inventoryItemList;
-
             _db.Inventory.Update(inventory);
+            _db.SaveChanges();
+            _db.Entry(inventory).State = EntityState.Detached;
 
-            await _db.SaveChangesAsync();
+
 
             return Content(item.Name);
 

@@ -98,7 +98,7 @@ namespace Aegis.Areas.Customer.Controllers
             {
                 inventory.InventoryItemList = string.Empty;
                 _db.Inventory.Update(inventory);
-                await _db.SaveChangesAsync();
+                _db.SaveChanges();
             }
             else
             {
@@ -108,7 +108,8 @@ namespace Aegis.Areas.Customer.Controllers
                 inventoryItemList = result2;
 
                 inventory.InventoryItemList = inventoryItemList;
-                await _db.SaveChangesAsync();
+                _db.Inventory.Update(inventory);
+                _db.SaveChanges();
             }
 
 
@@ -129,10 +130,10 @@ namespace Aegis.Areas.Customer.Controllers
                 inventoryItemList2 = result3;
 
                 inventory.InventoryItemList = inventoryItemList2;
-
+                _db.Inventory.Update(inventory);
+                _db.SaveChanges();
             }
 
-            _db.Inventory.Update(inventory);
 
             //Update player status (hp,attack etc...)
             ssPlayerModel = UpdatePlayerStatsOnEquip(ssPlayerModel, item);
@@ -188,10 +189,10 @@ namespace Aegis.Areas.Customer.Controllers
                 inventoryItemList = result2;
 
                 inventory.InventoryItemList = inventoryItemList;
-                //ovdje bi trebao biti ""
             }
 
             _db.Inventory.Update(inventory);
+            _db.SaveChanges();
 
             ssPlayerModel = UpdatePlayerStatsOnUnEquip(ssPlayerModel, item);
             _db.PlayerModel.Update(ssPlayerModel);
@@ -218,7 +219,7 @@ namespace Aegis.Areas.Customer.Controllers
             {
                 inventory.InventoryItemList = string.Empty;
                 _db.Inventory.Update(inventory);
-                await _db.SaveChangesAsync();
+                _db.SaveChangesAsync();
 
             }
             else
@@ -231,7 +232,7 @@ namespace Aegis.Areas.Customer.Controllers
                 
                 inventory.InventoryItemList = inventoryItemList;
                 _db.Inventory.Update(inventory);
-                await _db.SaveChangesAsync();
+                _db.SaveChangesAsync();
 
             }
 
