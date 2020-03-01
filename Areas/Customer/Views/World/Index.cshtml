@@ -317,13 +317,13 @@
                             var mcTempArray = mcTemp.split('/');
                             var mcTempCount = mcTempArray[bb];
                             //console.log('Monster multiplier = ' + mcTempCount);
-                            
+
 
                             for (im = mcTempCount; im > 0; im--) {
                                 console.log('kurcina =' + mobIndexInList);
                                 var sex = 'sex';
                                 //dodajemo monster dugme, sliku, lvl...
-                                $('#Monsters').append('<button id="' + im + '" enabled value="'+ mobIndexInList +'" style="display:block; margin-bottom:5px;" class="singleMonster">' + item.name + " [" + item.level + "]" + " " + '<img style="max-width:50px; max-height:40px;" src="' + item.picture + '">' + '</button>');
+                                $('#Monsters').append('<button id="' + im + '" enabled value="' + mobIndexInList + '" style="display:block; margin-bottom:5px;" class="singleMonster">' + item.name + " [Level " + item.level + "]" + "  " + '<img style="width:40px; height:40px;" src="' + item.picture + '">' + '</button>');
                                 //dodajemo event onClick
                                 $('.singleMonster').off().one('click', function (sex) {
                                     //disableujemo ostala dugmad, onemogucavamo kretanje, brisemo battle result od prethodne borbe
@@ -335,7 +335,7 @@
                                     var xxx = im;
                                     $('#BattleResult').empty();
                                     $.ajax({
-                                        url: 'https://localhost:44337/Customer/Monster/AttackMonster?roomid=' + data.room.id + '&mobid=' + item.id,
+                                        url: 'https://localhost:44337/Customer/Monster/AttackMonster?roomid=' + data.room.id + '&mobid=' + data.monsterList[mobIndexInList].id,
                                         type: 'GET',
                                         success: function (data1) {
                                             //console.log(data1);
@@ -382,7 +382,7 @@
                                                                 var tempDropItemList = data.monsterList[mobIndexInList].dropList;
                                                                 var tempDropItemIdArray = tempDropItemList.split('/');
                                                                 var tempDropItemId = tempDropItemIdArray[0];
-                                                                
+
 
                                                                 var myvar;
                                                                 $.ajax({
@@ -404,14 +404,14 @@
                                                             });
                                                             $('#BattleLog1').empty();
                                                             $('#BattleLog').empty();
-                                                            $('#BattleResult').append("<p style='color:yellow;'>VICTORY!: </p><br/>");
-                                                            $('#BattleResult').append("<p style='color:yellow;'>EXP: " + data.monsterList[mobIndexInList].exp + "</p>");
-                                                            $('#BattleResult').append("<p style='color:yellow;'>GOLD : " + data.monsterList[mobIndexInList].goldPerKill + "</p>");
+                                                            $('#BattleResult').append("<p style='color:#40ce37; '>VICTORY!: </p>");
+                                                            $('#BattleResult').append("<p style='color:white;'>EXP: " + data.monsterList[mobIndexInList].exp + "</p>");
+                                                            $('#BattleResult').append("<p style='color:white;'>GOLD : " + data.monsterList[mobIndexInList].goldPerKill + " <i style='color:yellow' class='fas fa-coins font-'></i></p>");
                                                             //console.log(data.room.monsterCount);
-                                                           // console.log(mcTempArray);
+                                                            // console.log(mcTempArray);
                                                             r1t = new Array(mcTempArray.length);
                                                             r1t[mcTempArray.length - mcTempArray[0]] = new Date();
-                                                           // console.log(r1t[mcTempArray.length - mcTempArray[0]]) + 'ovo';
+                                                            // console.log(r1t[mcTempArray.length - mcTempArray[0]]) + 'ovo';
                                                             mcTempArray[0] = mcTempArray[0] - 1;
                                                             //console.log(mcTempArray[0]);
                                                             mcTemp = mcTempArray.join("/");
@@ -431,7 +431,7 @@
                                                         }
                                                     }
                                                 }, index * interval);
-                                                
+
                                             });
 
                                         }
@@ -449,7 +449,7 @@
                                     console.log(mobIndexInList);
                                     mobIndexInList++;
                                 }
-                                
+
                             }
                             //end of for loop
 
@@ -513,10 +513,10 @@
         tileset.src = tilesetURL;
     };
 
-    function cool_function(event){
-    alert(event.data.param1);
-    alert(event.data.param2);
-}
+    function cool_function(event) {
+        alert(event.data.param1);
+        alert(event.data.param2);
+    }
 
     function drawGame() {
         if (ctx == null) { return; }
@@ -561,20 +561,42 @@
     }
 </script>
 
-<row class="d-flex bg-dark">
-    <canvas class="shadow-sm p-1 m-1 mb-5 bg-warning rounded" id="game" width="400" height="400"></canvas>
-    <div id="RoomInfo" class="bg-dark ml-2 text-white" style="width:400px; height:400px;">
-        <div id="RoomPicture"></div>
-        <div id="Monsters"></div>
-        <div id="BattleLog"></div>
-        <div id="BattleLog1"></div>
-        <div id="BattleResult"></div>
+<div class="col-12 row bg-dark pt-3" style="width:950px;">
+    <div class="col-md-6" style="height:750px;">
+        <row class="d-flex bg-dark">
+            <canvas class="shadow-sm p-1 m-1 mb-5 bg-warning rounded" id="game" width="400" height="400"></canvas>
+        </row>
+        <row class="d-flex bg-dark">
+            <div class="pl-3 pb-3 pr-3 text-white-50" style="width:400px; height:100px;">
+                <strong>Movement - |W| |A| |S| |D|</strong><br />
+                <strong>Skills&nbsp;  |Q-AoE|  &nbsp;  |SPACE|   &nbsp;   |R-Single|</strong><br />
+            </div>
+        </row>
     </div>
-</row>
 
-<row class="d-flex bg-dark">
-    <div class="pl-3 pb-3 pr-3 text-white-50" style="width:400px; height:100px;">
-        <strong>Movement - |W| |A| |S| |D|</strong><br />
-        <strong>Skills&nbsp;  |Q-AoE|  &nbsp;  |SPACE|   &nbsp;   |R-Single|</strong><br />
+    <div class="col-md-6">
+        <row class="d-flex bg-dark text-white pl-2"><small class="font-italic ml-2">Room:</small></row>
+        <row class="d-flex bg-dark">
+            <div class="col-md-12">
+                <div id="RoomInfo" class="d-flex text-white">
+                    <row class="d-flex bg-dark"><div id="RoomPicture" class="mb-2"></div></row>
+                </div>
+            </div>
+        </row>
+        <row class="d-flex bg-dark">
+            <div class="col-md-8 style=" padding-left:0px;"">
+                <div id="Monsters"></div>
+            </div>
+            
+        </row>
+        <row class="d-flex bg-dark">
+            <div class="col-md-4">
+                <hr style="background-color:white; width:250px;" />
+                <div id="BattleLog"></div>
+                <div id="BattleLog1"></div>
+                <div id="BattleResult"></div>
+            </div>
+        </row>
     </div>
-</row>
+
+</div>

@@ -116,3 +116,13 @@ div.showItemStats:hover div.overlay {
     padding: 20px;
     margin: 2px;
 }
+
+.singleMonster {
+    border: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    outline: inherit;
+    color: #00ff14;
+}
