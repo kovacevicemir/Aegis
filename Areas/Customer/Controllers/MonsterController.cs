@@ -92,13 +92,13 @@ namespace Aegis.Areas.Customer.Controllers
         }
 
         [HttpGet]
-        public MonsterAttackModel AttackMonster(int id)
+        public MonsterAttackModel AttackMonster(int roomid, int mobid)
         {
-            var tempId = id;
+            var tempId = roomid;
 
-            if(id < 0)
+            if(roomid < 0)
             {
-                tempId = id * -1;
+                tempId = roomid * -1;
             }
             
 
@@ -128,11 +128,12 @@ namespace Aegis.Areas.Customer.Controllers
 
 
             //SINGLE ATTACK
-            if (id > 0)
+            if (roomid > 0)
             {
 
                 //Const`s:
-                var Mob = monsterList[0];
+                //var Mob = monsterList[mobid];
+                var Mob = _db.Monster.FirstOrDefault(m => m.Id == mobid);
                 MonsterHpLog.Add(Mob.Hp);
 
                 int PlayerCurrentAtt = 1;

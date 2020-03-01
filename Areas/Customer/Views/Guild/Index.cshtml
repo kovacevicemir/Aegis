@@ -196,36 +196,40 @@ else
                 <div style="width:320px; padding:10px;">
                     @if (ssPlayerModel.GuildName == Model.Guild.Name)
                     {
-                    <form method="post" class=" border p-1 bg-dark text-white-50">
-                        <div class="col-12 d-inline-flex">
-                            <label class="col-5 ">Nickname:</label>
-                            <input id="invitePlayerToGuild" name="invitePlayerToGuild" class="form-control col-7 text-decoration-none" />
-                        </div>
-                        <button asp-action="InviteToGuild" asp-controller="Guild" type="submit" class="form-control btn btn-success">Invite</button>
-                        
-                        <div class="border rounded col-6 bg-dark text-white-50 p-1 mt-2">
-                            <label class="small">Leave guild</label>
-                            <button type="submit" asp-action="LeaveGuild" asp-area="Customer" asp-controller="Guild" asp-route-guildname="@Model.Guild.Name" class="btn btn-xs bg-white"><i class="fas fa-sign-out-alt"></i></button>
-                        </div>
-                    </form>
+                        <form method="post" class=" border p-1 bg-dark text-white-50">
+                            <div class="col-12 d-inline-flex">
+                                <label class="col-5 ">Nickname:</label>
+                                <input id="invitePlayerToGuild" name="invitePlayerToGuild" class="form-control col-7 text-decoration-none" />
+                            </div>
+                            <button asp-action="InviteToGuild" asp-controller="Guild" type="submit" class="form-control btn btn-success">Invite</button>
 
-                       
+                            <div class="border rounded col-6 bg-dark text-white-50 p-1 mt-2">
+                                <label class="small">Leave guild</label>
+                                <button type="submit" asp-action="LeaveGuild" asp-area="Customer" asp-controller="Guild" asp-route-guildname="@Model.Guild.Name" class="btn btn-xs bg-white"><i class="fas fa-sign-out-alt"></i></button>
+                            </div>
+                        </form>
+
+
                     }
 
                     @{
-                        var invList = Model.Guild.InvitationList.Split(",").ToList();
-                        foreach (var item in invList)
+                        if (Model.Guild.InvitationList != null)
                         {
-                            if (item == ssPlayerModel.Nickname)
+                            var invList = Model.Guild.InvitationList.Split(",").ToList();
+                            foreach (var item in invList)
                             {
-                                <form method="post" class=" border p-1 bg-dark text-white-50">
-                                    <div class="col-12 d-inline-flex">
-                                        <label class="col-8 offset-3 ">Join this guild !</label>
-                                    </div>
-                                    <button asp-action="AcceptGuildInvite" asp-controller="Guild" asp-route-guildname="@Model.Guild.Name" type="submit" class="form-control btn btn-success">Join</button>
-                                </form>
+                                if (item == ssPlayerModel.Nickname)
+                                {
+                                    <form method="post" class=" border p-1 bg-dark text-white-50">
+                                        <div class="col-12 d-inline-flex">
+                                            <label class="col-8 offset-3 ">Join this guild !</label>
+                                        </div>
+                                        <button asp-action="AcceptGuildInvite" asp-controller="Guild" asp-route-guildname="@Model.Guild.Name" type="submit" class="form-control btn btn-success">Join</button>
+                                    </form>
+                                }
                             }
                         }
+
                     }
 
                 </div>
